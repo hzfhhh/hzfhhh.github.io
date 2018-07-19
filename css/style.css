@@ -12,6 +12,15 @@ body,
 	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 
+.site-nav-logo img {
+	width: 42px!important;
+	border-radius: 50%;
+	height: 30px!important;
+	background-color: #e3e9ed;
+	position: relative;
+	top: -5px;
+}
+
 @media (max-width: 800px) {
 	.floating-header-divider,
 	.floating-header-title {
