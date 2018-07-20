@@ -7,10 +7,6 @@ body,
 	word-break: break-all;
 }
 
-.site-main {
-	background: linear-gradient(145deg, rgba(191, 181, 253, .8), rgba(77, 215, 209, .8)) fixed!important;
-}
-
 .markdown-body .highlight pre, .markdown-body pre {
 	border: none!important;
 	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
