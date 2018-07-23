@@ -156,7 +156,7 @@
                     <p>最终效果图 (<a href="https://xpzv28rzyq.codesandbox.io/" target="_blank" rel="noopener">在线预览请戳这里</a>)</p>
 <p><img src="https://uploads.codesandbox.io/uploads/user/82e0864e-4213-4d6c-a67d-cde3dedc92a2/CPn_-beer.gif" width="25%" height="25%"></p>
 <h4 id="整体思路："><a href="#整体思路：" class="headerlink" title="整体思路："></a>整体思路：</h4><p>把整体拆分成四个部分，分别是杯子，水面波纹，杯子顶部的啤酒泡以及杯中的水汽，接下来将逐一介绍如何实现。</p>
-<h5 id="1、杯子："><a href="#1、杯子：" class="headerlink" title="1、杯子："></a>1、杯子：</h5><p>杯子部分的实现比较容易，自然而然就会想到通过canvas来实现。代码如下：</p>
+<h4 id="1、杯子："><a href="#1、杯子：" class="headerlink" title="1、杯子："></a>1、杯子：</h4><p>杯子部分的实现比较容易，自然而然就会想到通过canvas来实现。代码如下：</p>
 <pre><code class="javascript">const beer = this.refs.beer;
     beer.height = 800;//画布高度
     beer.width = 800;//画布宽度
@@ -181,8 +181,8 @@
     ctx.lineTo(500, 520);
     ctx.stroke();
 </code></pre>
-<h5 id="2、水面波纹"><a href="#2、水面波纹" class="headerlink" title="2、水面波纹"></a>2、水面波纹</h5><p>如果仔细看的话，可以看到其实是有水面波纹的动态效果的，这部分也是四个部分中最难的一部分。水面波纹的实现我主要是参考了另一篇关于实现水面波纹的教程， 主要是通过canvas以及正弦曲线的计算公式来实现的，具体实现过程可以看 <a href="https://juejin.im/post/5b4ffa045188251b134e7211" target="_blank" rel="noopener">水波图实现原理</a>。</p>
-<h5 id="3、顶部啤酒泡"><a href="#3、顶部啤酒泡" class="headerlink" title="3、顶部啤酒泡"></a>3、顶部啤酒泡</h5><p>啤酒泡的实现，一开始也是打算用canvas来画的，后来发现用到的算法太过复杂，果断放弃了（撤。。。。。）后来在网上找了很多相似形状的图案来看源码，发现竟然可以通过css属性<code>box-shadow</code>来实现，（再一次发现新大陆）。具体思路：先通过<code>border-radus</code>画出一个圆形，然后在它的<code>box-shadow</code>属性上添加多个水平阴影、垂直阴影、阴影尺寸不同的阴影，就能实现类似的效果。具体代码如下：</p>
+<h4 id="2、水面波纹"><a href="#2、水面波纹" class="headerlink" title="2、水面波纹"></a>2、水面波纹</h4><p>如果仔细看的话，可以看到其实是有水面波纹的动态效果的，这部分也是四个部分中最难的一部分。水面波纹的实现我主要是参考了另一篇关于实现水面波纹的教程， 主要是通过canvas以及正弦曲线的计算公式来实现的，具体实现过程可以看 <a href="https://juejin.im/post/5b4ffa045188251b134e7211" target="_blank" rel="noopener">水波图实现原理</a>。</p>
+<h4 id="3、顶部啤酒泡"><a href="#3、顶部啤酒泡" class="headerlink" title="3、顶部啤酒泡"></a>3、顶部啤酒泡</h4><p>啤酒泡的实现，一开始也是打算用canvas来画的，后来发现用到的算法太过复杂，果断放弃了（撤。。。。。）后来在网上找了很多相似形状的图案来看源码，发现竟然可以通过css属性<code>box-shadow</code>来实现，（再一次发现新大陆）。具体思路：先通过<code>border-radus</code>画出一个圆形，然后在它的<code>box-shadow</code>属性上添加多个水平阴影、垂直阴影、阴影尺寸不同的阴影，就能实现类似的效果。具体代码如下：</p>
 <pre><code class="css">//通过画同心圆来实现边框有颜色，背景没颜色的效果
 .cup .cloud1 {
   position: absolute;
@@ -232,7 +232,7 @@
     -290px -5px 0 12px #fff, -330px -8px 0 12px #fff, -360px -4px 0 4px #fff;
 }
 </code></pre>
-<h5 id="4、水汽"><a href="#4、水汽" class="headerlink" title="4、水汽"></a>4、水汽</h5><p>水汽实现起来也很简单，给多个小圆圈添加css动画就能实现，具体代码如下：</p>
+<h4 id="4、水汽"><a href="#4、水汽" class="headerlink" title="4、水汽"></a>4、水汽</h4><p>水汽实现起来也很简单，给多个小圆圈添加css动画就能实现，具体代码如下：</p>
 <pre><code class="css">.cup .bubble1 {
   position: absolute;
   bottom: 107px;
@@ -349,7 +349,7 @@
 <div class="toc-main" style="right: -100%">
     <div class="post-toc">
         <span>TOC</span>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#整体思路："><span class="toc-text">整体思路：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1、杯子："><span class="toc-text">1、杯子：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2、水面波纹"><span class="toc-text">2、水面波纹</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3、顶部啤酒泡"><span class="toc-text">3、顶部啤酒泡</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4、水汽"><span class="toc-text">4、水汽</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#整体思路："><span class="toc-text">整体思路：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1、杯子："><span class="toc-text">1、杯子：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、水面波纹"><span class="toc-text">2、水面波纹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、顶部啤酒泡"><span class="toc-text">3、顶部啤酒泡</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、水汽"><span class="toc-text">4、水汽</span></a></li></ol>
     </div>
 </div>
 
