@@ -18,7 +18,7 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-	<title>ES6特性 class、static、super、extends | 章鱼·保罗的演播室</title>
+	<title>canvas + css绘制啤酒 | 章鱼·保罗的演播室</title>
 
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
@@ -45,14 +45,14 @@
 
 	<meta property="og:site_name" content="章鱼·保罗的演播室">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="ES6特性 class、static、super、extends | 章鱼·保罗的演播室">
+	<meta property="og:title" content="canvas + css绘制啤酒 | 章鱼·保罗的演播室">
 	<meta property="og:description" content="">
-	<meta property="og:url" content="https://github.com/hzfhhh/hzfhhh.github.io/2018/07/19/fe-note-2/">
+	<meta property="og:url" content="https://github.com/hzfhhh/hzfhhh.github.io/2018/07/23/fe-note-9/">
 
 	
-	<meta property="article:published_time" content="2018-07-19T17:07:88+08:00"/> 
+	<meta property="article:published_time" content="2018-07-23T09:07:79+08:00"/> 
 	<meta property="article:author" content="hzfhhh">
-	<meta property="article:published_first" content="章鱼·保罗的演播室, /2018/07/19/fe-note-2/" />
+	<meta property="article:published_first" content="章鱼·保罗的演播室, /2018/07/23/fe-note-9/" />
 	
 
 	
@@ -139,96 +139,182 @@
     <div class="inner">
         <header class="post-full-header">
             <section class="post-full-meta">
-                <time  class="post-full-meta-date" datetime="2018-07-19T09:22:28.887Z" itemprop="datePublished">
-                    2018-07-19
+                <time  class="post-full-meta-date" datetime="2018-07-23T01:23:49.797Z" itemprop="datePublished">
+                    2018-07-23
                 </time>
                 
                 <span class="date-divider">/</span>
                 
                 
             </section>
-            <h1 class="post-full-title">ES6特性 class、static、super、extends</h1>
+            <h1 class="post-full-title">canvas + css绘制啤酒</h1>
         </header>
         <article class="post-full no-image">
             
             <section class="post-full-content">
                 <div id="lightgallery" class="markdown-body">
-                    <h1 id="ES6特性-class、static、super、extends"><a href="#ES6特性-class、static、super、extends" class="headerlink" title="ES6特性  class、static、super、extends"></a>ES6特性  class、static、super、extends</h1><h3 id="类class：-JavaScript-现有的原型继承的语法糖，用更简洁明了的语法创建对象及处理相关的继承。"><a href="#类class：-JavaScript-现有的原型继承的语法糖，用更简洁明了的语法创建对象及处理相关的继承。" class="headerlink" title="类class： JavaScript 现有的原型继承的语法糖，用更简洁明了的语法创建对象及处理相关的继承。"></a>类class： JavaScript 现有的原型继承的语法糖，用更简洁明了的语法创建对象及处理相关的继承。</h3><p><strong>ES5</strong>定义类的方式</p>
-<pre><code class="javascript">    function Person(name, age) {
-      this.name = name,
-      this.age = age
-    }
-    person.prototype.msg = function() {
-      return this.name + &#39; &#39; + this.age;
-    }
+                    <p>最终效果图 (<a href="https://xpzv28rzyq.codesandbox.io/" target="_blank" rel="noopener">在线预览请戳这里</a>)</p>
+<p><img src="https://uploads.codesandbox.io/uploads/user/82e0864e-4213-4d6c-a67d-cde3dedc92a2/CPn_-beer.gif" width="25%" height="25%"></p>
+<h4 id="整体思路："><a href="#整体思路：" class="headerlink" title="整体思路："></a>整体思路：</h4><p>把整体拆分成四个部分，分别是杯子，水面波纹，杯子顶部的啤酒泡以及杯中的水汽，接下来将逐一介绍如何实现。</p>
+<h5 id="1、杯子："><a href="#1、杯子：" class="headerlink" title="1、杯子："></a>1、杯子：</h5><p>杯子部分的实现比较容易，自然而然就会想到通过canvas来实现。代码如下：</p>
+<pre><code class="javascript">const beer = this.refs.beer;
+    beer.height = 800;//画布高度
+    beer.width = 800;//画布宽度
+    const ctx = beer.getContext(&quot;2d&quot;);
+    ctx.clearRect(0, 0, ctx.width, ctx.height);
+    ctx.beginPath();
+    ctx.rect(100, 200, 400, 500);
+    // ctx.strokeStyle = &quot;#000&quot;;
+    ctx.stroke();
+    ctx.beginPath();
+    //画杯子
+    ctx.lineTo(500, 300);
+    ctx.lineTo(600, 300);
+    ctx.lineTo(600, 500);
+    ctx.lineTo(500, 500);
+    ctx.stroke();
+    ctx.beginPath();
+    //画杯耳
+    ctx.lineTo(500, 280);
+    ctx.lineTo(620, 280);
+    ctx.lineTo(620, 520);
+    ctx.lineTo(500, 520);
+    ctx.stroke();
+</code></pre>
+<h5 id="2、水面波纹"><a href="#2、水面波纹" class="headerlink" title="2、水面波纹"></a>2、水面波纹</h5><p>如果仔细看的话，可以看到其实是有水面波纹的动态效果的，这部分也是四个部分中最难的一部分。水面波纹的实现我主要是参考了另一篇关于实现水面波纹的教程， 主要是通过canvas以及正弦曲线的计算公式来实现的，具体实现过程可以看 <a href="https://juejin.im/post/5b4ffa045188251b134e7211" target="_blank" rel="noopener">水波图实现原理</a>。</p>
+<h5 id="3、顶部啤酒泡"><a href="#3、顶部啤酒泡" class="headerlink" title="3、顶部啤酒泡"></a>3、顶部啤酒泡</h5><p>啤酒泡的实现，一开始也是打算用canvas来画的，后来发现用到的算法太过复杂，果断放弃了（撤。。。。。）</p>
+<p>后来在网上找了很多相似形状的图案来看源码，发现竟然可以通过css属性<code>box-shadow</code>来实现，（再一次发现新大陆）。具体思路：先通过<code>border-radus</code>画出一个圆形，然后在它的<code>box-shadow</code>属性上添加多个水平阴影、垂直阴影、阴影尺寸不同的阴影，就能实现类似的效果。具体代码如下：</p>
+<pre><code class="css">//通过画同心圆来实现边框有颜色，背景没颜色的效果
+.cup .cloud1 {
+  position: absolute;
+  left: 100px;
+  top: 130px;
+  width: 400px;
+  height: 70px;
+  box-sizing: border-box;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+}
+.cup .cloud1::after {
+  content: &quot;&quot;;
+  position: absolute;
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  background-color: #fff;
+  border: 1px solid #000;
+  top: 7px;
+  right: -15px;
+  box-shadow: -40px -10px 0 8px #000, -90px -5px 0 5px #000,
+    -140px -10px 0 8px #000, -190px -10px 0 8px #000, -240px -7px 0 9px #000,
+    -290px -5px 0 12px #000, -330px -8px 0 12px #000, -360px -4px 0 4px #000;
+}
+.cup .cloud2 {
+  position: absolute;
+  left: 100px;
+  top: 130px;
+  width: 400px;
+  height: 70px;
+  box-sizing: border-box;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+}
+.cup .cloud2::after {
+  content: &quot;&quot;;
+  position: absolute;
+  border-radius: 50%;
+  width: 73px;
+  height: 73px;
+  background-color: #fff;
+  top: 8px;
+  right: -14px;
+  box-shadow: -40px -10px 0 8px #fff, -90px -5px 0 5px #fff,
+    -140px -10px 0 8px #fff, -190px -10px 0 8px #fff, -240px -7px 0 9px #fff,
+    -290px -5px 0 12px #fff, -330px -8px 0 12px #fff, -360px -4px 0 4px #fff;
+}
+</code></pre>
+<h5 id="4、水汽"><a href="#4、水汽" class="headerlink" title="4、水汽"></a>4、水汽</h5><p>水汽实现起来也很简单，给多个小圆圈添加css动画就能实现，具体代码如下：</p>
+<pre><code class="css">.cup .bubble1 {
+  position: absolute;
+  bottom: 107px;
+  left: 220px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(246, 154, 55, 0.5);
+  animation: bubble-loading 4s linear infinite;
+}
+.cup .bubble2 {
+  position: absolute;
+  bottom: 107px;
+  left: 260px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: rgba(246, 154, 55, 0.5);
+  animation: bubble-loading 3s linear infinite;
+}
+.cup .bubble3 {
+  position: absolute;
+  bottom: 107px;
+  left: 300px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: rgba(246, 154, 55, 0.5);
+  animation: bubble-loading 5s linear infinite;
+}
+.cup .bubble4 {
+  position: absolute;
+  bottom: 107px;
+  left: 320px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(246, 154, 55, 0.5);
+  animation: bubble-loading 6s linear infinite;
+}
+.cup .bubble5 {
+  position: absolute;
+  bottom: 107px;
+  left: 352px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(246, 154, 55, 0.5);
+  animation: bubble-loading 4s linear infinite;
+}
+.cup .bubble6 {
+  position: absolute;
+  bottom: 107px;
+  left: 382px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background-color: rgba(246, 154, 55, 0.5);
+  animation: bubble-loading 7s linear infinite;
+}
+.cup .bubble7 {
+  position: absolute;
+  bottom: 107px;
+  left: 412px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: rgba(246, 154, 55, 0.5);
+  animation: bubble-loading 5.5s linear infinite;
+}
 
-    var tom = new Person(&#39;Tom&#39;, 22);
-    console.log(tom.msg()) //Tom 22
+@keyframes bubble-loading {
+  from {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-437px);
+  }
+}
 </code></pre>
-<h3 id="类定义有两种方式，类声明和类表达式"><a href="#类定义有两种方式，类声明和类表达式" class="headerlink" title="类定义有两种方式，类声明和类表达式"></a>类定义有两种方式，类声明和类表达式</h3><p>用类声明方式实现上面<strong>ES5</strong>方式的类定义</p>
-<pre><code class="javascript">    class Person {
-      constructor(name, age) {
-        this.name = name
-        this.age = age
-      }
-      msg () {
-        return `name:${this.name},age:${this.age}`
-      }
-    }
-    let json = new Person(&#39;Json&#39;,12)
-    console.log(json.msg()) //name:Json,age:12
-</code></pre>
-<p>用类表达式实现上面<strong>ES5</strong>方式的类定义</p>
-<pre><code class="javascript">    let Person = class {
-      constructor(name, age) {
-        this.name = name
-        this.age = age
-      }
-      msg () {
-        return `name:${this.name},age:${this.age}`
-      }
-    }
-    let mike = new Person(&#39;Mike&#39;,12)
-    console.log(mike.msg()) //name:Mike,age:12
-</code></pre>
-<h3 id="static关键字：定义一个类中的静态方法"><a href="#static关键字：定义一个类中的静态方法" class="headerlink" title="static关键字：定义一个类中的静态方法"></a>static关键字：定义一个类中的静态方法</h3><p>静态方法可以在类还没有实例化时被调用，但不可以在类实例化后调用。静态方法经常作为程序的工具函数使用。</p>
-<pre><code class="javascript">    class Number {
-      static num (n) {
-        console.log(n)
-      }
-    }
-    class test extends number {
-      static num (n) {
-        console.log(n*2)
-      }
-    }
-    var test1 = new Number();
-    console.log(Number.num(3)); //3
-    console.log(test.num(3)); //6
-    //在实例test1中调用num()会抛出异常
-    console.log(test1.num()); //Uncaught TypeError: test1.num is not a function
-</code></pre>
-<h3 id="super关键字-amp-amp-extends关键字"><a href="#super关键字-amp-amp-extends关键字" class="headerlink" title="super关键字&amp;&amp;extends关键字"></a>super关键字&amp;&amp;extends关键字</h3><p><strong>super</strong> 关键字用于访问父对象上的函数。<strong>extends</strong>关键词被用在类声明和类表达式上，以创建一个类的子类。</p>
-<pre><code class="javascript">    class Cat { 
-      constructor(name) {
-        this.name = name;
-      }
-
-      speak() {
-        console.log(this.name + &#39; makes a noise.&#39;);
-      }
-    }
-
-    class Lion extends Cat {
-      speak() {
-        super.speak();
-        console.log(this.name + &#39; roars.&#39;);
-      }
-    }
-    var candy = new Lion(&#39;candy&#39;)
-    candy.speak(); //candy makes a noise.
-                   //candy roars.
-</code></pre>
+<p>通过以上四步就能制作一个啤酒的图案， <a href="https://codesandbox.io/s/xpzv28rzyq" target="_blank" rel="noopener">想看源码的画可以戳</a></p>
 
                 </div>
             </section>
@@ -238,14 +324,10 @@
 <nav class="pagination">
     
     
-    <a class="prev-post" title="css绝对定位absoulte" href="/2018/07/19/fe-note-3/">
-        ← css绝对定位absoulte
-    </a>
-    
     <span class="prev-next-post">•</span>
     
-    <a class="next-post" title="apply()、call()、bind()用法与区别" href="/2018/07/19/fe-note-1/">
-        apply()、call()、bind()用法与区别 →
+    <a class="next-post" title="vue.js自定义组件上使用v-model" href="/2018/07/19/fe-note-8/">
+        vue.js自定义组件上使用v-model →
     </a>
     
     
@@ -268,7 +350,7 @@
 <div class="toc-main" style="right: -100%">
     <div class="post-toc">
         <span>TOC</span>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ES6特性-class、static、super、extends"><span class="toc-text">ES6特性  class、static、super、extends</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类class：-JavaScript-现有的原型继承的语法糖，用更简洁明了的语法创建对象及处理相关的继承。"><span class="toc-text">类class： JavaScript 现有的原型继承的语法糖，用更简洁明了的语法创建对象及处理相关的继承。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类定义有两种方式，类声明和类表达式"><span class="toc-text">类定义有两种方式，类声明和类表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static关键字：定义一个类中的静态方法"><span class="toc-text">static关键字：定义一个类中的静态方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#super关键字-amp-amp-extends关键字"><span class="toc-text">super关键字&amp;&amp;extends关键字</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#整体思路："><span class="toc-text">整体思路：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1、杯子："><span class="toc-text">1、杯子：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2、水面波纹"><span class="toc-text">2、水面波纹</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3、顶部啤酒泡"><span class="toc-text">3、顶部啤酒泡</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4、水汽"><span class="toc-text">4、水汽</span></a></li></ol></li></ol>
     </div>
 </div>
 
@@ -376,7 +458,7 @@
         </a>
     </div>
     <span class="floating-header-divider">&mdash;</span>
-    <div class="floating-header-title">ES6特性 class、static、super、extends</div>
+    <div class="floating-header-title">canvas + css绘制啤酒</div>
     <progress class="progress" value="0">
         <div class="progress-container">
             <span class="progress-bar"></span>
