@@ -182,8 +182,7 @@
     ctx.stroke();
 </code></pre>
 <h5 id="2、水面波纹"><a href="#2、水面波纹" class="headerlink" title="2、水面波纹"></a>2、水面波纹</h5><p>如果仔细看的话，可以看到其实是有水面波纹的动态效果的，这部分也是四个部分中最难的一部分。水面波纹的实现我主要是参考了另一篇关于实现水面波纹的教程， 主要是通过canvas以及正弦曲线的计算公式来实现的，具体实现过程可以看 <a href="https://juejin.im/post/5b4ffa045188251b134e7211" target="_blank" rel="noopener">水波图实现原理</a>。</p>
-<h5 id="3、顶部啤酒泡"><a href="#3、顶部啤酒泡" class="headerlink" title="3、顶部啤酒泡"></a>3、顶部啤酒泡</h5><p>啤酒泡的实现，一开始也是打算用canvas来画的，后来发现用到的算法太过复杂，果断放弃了（撤。。。。。）</p>
-<p>后来在网上找了很多相似形状的图案来看源码，发现竟然可以通过css属性<code>box-shadow</code>来实现，（再一次发现新大陆）。具体思路：先通过<code>border-radus</code>画出一个圆形，然后在它的<code>box-shadow</code>属性上添加多个水平阴影、垂直阴影、阴影尺寸不同的阴影，就能实现类似的效果。具体代码如下：</p>
+<h5 id="3、顶部啤酒泡"><a href="#3、顶部啤酒泡" class="headerlink" title="3、顶部啤酒泡"></a>3、顶部啤酒泡</h5><p>啤酒泡的实现，一开始也是打算用canvas来画的，后来发现用到的算法太过复杂，果断放弃了（撤。。。。。）后来在网上找了很多相似形状的图案来看源码，发现竟然可以通过css属性<code>box-shadow</code>来实现，（再一次发现新大陆）。具体思路：先通过<code>border-radus</code>画出一个圆形，然后在它的<code>box-shadow</code>属性上添加多个水平阴影、垂直阴影、阴影尺寸不同的阴影，就能实现类似的效果。具体代码如下：</p>
 <pre><code class="css">//通过画同心圆来实现边框有颜色，背景没颜色的效果
 .cup .cloud1 {
   position: absolute;
