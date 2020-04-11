@@ -140,7 +140,7 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
-					<a class="post-card-content-link" title="apply()、call()、bind()用法与区别" href="/2018/07/19/fe-note-1/">
+					<a class="post-card-content-link" title="闭包" href="/2020/04/11/闭包/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
 								
@@ -148,11 +148,11 @@
 								备战计划
 								| 
 								
-								<time datetime="2018-07-19T02:24:25.367Z" itemprop="datePublished">
-									2018-07-19
+								<time datetime="2020-04-11T11:54:39.000Z" itemprop="datePublished">
+									2020-04-11
 								</time>
 							</span>
-							<h2 class="post-card-title">apply()、call()、bind()用法与区别</h2>
+							<h2 class="post-card-title">闭包</h2>
 						</header>
 						<section class="post-card-excerpt">
 							<p>
@@ -161,12 +161,14 @@
 								
 								
 								
-								apply、call用法与区别在 javascript 中，call() 和 apply() 都是为了改变某个函数运行时函数体内部 this 的指向。
-call()和apply()作用相同，唯一区别是接收的参数不同，apply()接收两个参数，第一个参数是运行函数的作用域，另一个是参数数组，如：
-    var numbers = [1,2,3];
-    Math.max.apply(this,numbers);  //3
-
-    var numbers = [1,2,3
+								闭包闭包是由函数以及创建该函数的词法环境组合而成，可以让你从内部函数访问外部函数作用域。
+例子：
+function init() {
+    var name = &quot;Mozilla&quot;; // name 是一个被 init 创建的局部变量
+    function displayName() { // displayName() 是内部函数,一个闭包
+        alert(name); // 使用了父函数中声明的变量
+    }
+    display
 								...
 							</p>
 						</section>
@@ -183,7 +185,7 @@ call()和apply()作用相同，唯一区别是接收的参数不同，apply()接
 							</li>
 						</ul>
 						<span class="reading-time">
-							4
+							3
 							 min read
 						</span>
 					</footer>
@@ -225,6 +227,12 @@ call()和apply()作用相同，唯一区别是接收的参数不同，apply()接
       
       
       <li>
+        <a href="/2020/04/11/闭包/">闭包</a>
+      </li>
+      
+      
+      
+      <li>
         <a href="/2018/07/23/fe-note-9/">canvas + css绘制啤酒</a>
       </li>
       
@@ -235,10 +243,6 @@ call()和apply()作用相同，唯一区别是接收的参数不同，apply()接
       </li>
       
       
-      
-      <li>
-        <a href="/2018/07/19/fe-note-7/">CSS画波浪线的方法</a>
-      </li>
       
       
       

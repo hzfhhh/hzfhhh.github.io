@@ -18,7 +18,7 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-	<title>文字竖直排列实现方式 | 黄梓峰的博客</title>
+	<title>闭包 | 黄梓峰的博客</title>
 
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
@@ -45,14 +45,14 @@
 
 	<meta property="og:site_name" content="黄梓峰的博客">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="文字竖直排列实现方式 | 黄梓峰的博客">
+	<meta property="og:title" content="闭包 | 黄梓峰的博客">
 	<meta property="og:description" content="">
-	<meta property="og:url" content="https://github.com/hzfhhh/hzfhhh.github.io/2018/07/19/fe-note-4/">
+	<meta property="og:url" content="https://github.com/hzfhhh/hzfhhh.github.io/2020/04/11/闭包/">
 
 	
-	<meta property="article:published_time" content="2018-07-19T17:07:50+08:00"/> 
+	<meta property="article:published_time" content="2020-04-11T19:04:00+08:00"/> 
 	<meta property="article:author" content="hzfhhh">
-	<meta property="article:published_first" content="黄梓峰的博客, /2018/07/19/fe-note-4/" />
+	<meta property="article:published_first" content="黄梓峰的博客, /2020/04/11/闭包/" />
 	
 
 	
@@ -139,181 +139,73 @@
     <div class="inner">
         <header class="post-full-header">
             <section class="post-full-meta">
-                <time  class="post-full-meta-date" datetime="2018-07-19T09:29:33.504Z" itemprop="datePublished">
-                    2018-07-19
+                <time  class="post-full-meta-date" datetime="2020-04-11T11:54:39.000Z" itemprop="datePublished">
+                    2020-04-11
                 </time>
                 
                 <span class="date-divider">/</span>
                 
+                <a href="/categories/备战计划/">备战计划</a>&nbsp;&nbsp;
+                
                 
             </section>
-            <h1 class="post-full-title">文字竖直排列实现方式</h1>
+            <h1 class="post-full-title">闭包</h1>
         </header>
         <article class="post-full no-image">
             
             <section class="post-full-content">
                 <div id="lightgallery" class="markdown-body">
-                    <h2 id="文字竖直排列实现方式"><a href="#文字竖直排列实现方式" class="headerlink" title="文字竖直排列实现方式"></a>文字竖直排列实现方式</h2><p>注：本文章参考了张鑫旭的一篇博客<a href="http://www.zhangxinxu.com/wordpress/2016/04/css-writing-mode/" target="_blank" rel="noopener">http://www.zhangxinxu.com/wordpress/2016/04/css-writing-mode/</a> ,如有版权问题，请联系本人邮箱：<a href="mailto:673944632@qq.com" target="_blank" rel="noopener">673944632@qq.com</a></p>
-<h4 id="使用br换行标签实现文字换行"><a href="#使用br换行标签实现文字换行" class="headerlink" title="使用br换行标签实现文字换行"></a>使用br换行标签实现文字换行</h4><pre><code class="html">&lt;div&gt;
-  文&lt;br&gt;字&lt;br&gt;竖&lt;br&gt;直&lt;br&gt;排&lt;br&gt;列
-&lt;/div&gt;
+                    <h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>闭包是由函数以及创建该函数的词法环境组合而成，可以让你从内部函数访问外部函数作用域。</p>
+<p>例子：</p>
+<pre><code class="js">function init() {
+    var name = &quot;Mozilla&quot;; // name 是一个被 init 创建的局部变量
+    function displayName() { // displayName() 是内部函数,一个闭包
+        alert(name); // 使用了父函数中声明的变量
+    }
+    displayName();
+}
+init();
 </code></pre>
-<h4 id="强制设置显示区域的宽度"><a href="#强制设置显示区域的宽度" class="headerlink" title="强制设置显示区域的宽度"></a>强制设置显示区域的宽度</h4><pre><code class="html">&lt;style&gt; 
-  div { 
-      width: 10px; 
-      font-size: 10px; 
-  } 
-&lt;/style&gt; 
-&lt;div&gt;
-  文字竖直排列
-&lt;/div&gt;
+<p>闭包用处：</p>
+<p>1、允许将函数与其所操作的某些数据（环境）关联起来</p>
+<pre><code class="js">function makeSizer(size) {
+  return function() {
+    document.body.style.fontSize = size + &#39;px&#39;;
+  };
+}
+
+var size12 = makeSizer(12);
+var size14 = makeSizer(14);
+var size16 = makeSizer(16);
 </code></pre>
-<h4 id="使用writing-mode属性"><a href="#使用writing-mode属性" class="headerlink" title="使用writing-mode属性"></a>使用writing-mode属性</h4><pre><code class="html">&lt;style&gt;
-  div {
-    writing-mode: tb-rl;
-       -webkit-writing-mode: vertical-rl;    
+<p>2、用闭包模拟私有方法</p>
+<p>使用闭包来定义公共函数，并令其可以访问私有函数和变量。这个方法也称为模块模式。</p>
+<pre><code class="js">var Counter = (function() {
+  var privateCounter = 0;
+  function changeBy(val) {
+    privateCounter += val;
   }
-&lt;/style&gt;
-&lt;div&gt;
-  文字竖直排列
-&lt;/div&gt;
-</code></pre>
-<p>writing-mode语法比较特别,因为最开始只有IE浏览器支持这个属性，后来才被各大现代浏览器实现，所以writing-mode有两套语法，一套是IE私有属性，一套是CSS3规范属性</p>
-<p>附：兼容性图</p>
-<p><img src="../../../../img/writing-mode.png" alt="compatibility "></p>
-<p>CSS3：</p>
-<pre><code class="html">/* 关键字值 */
-writing-mode: horizontal-tb;//水平方向自上而下的书写方式
-writing-mode: vertical-rl;//垂直方向自右而左的书写方式
-writing-mode: vertical-lr;//垂直方向自左而右的书写方式![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
-</code></pre>
-<p>表现对照：</p>
-<p><img src="https://raw.githubusercontent.com/landray/frontend-kb/master/notes/huangzifeng/%E6%96%87%E5%AD%97%E7%AB%96%E7%9B%B4%E6%8E%92%E5%88%97/css3.png" alt="css3"></p>
-<p>IE：</p>
-<pre><code class="htm">-ms-writing-mode: lr-tb | rl-tb | tb-rl | bt-rl | tb-lr | bt-lr | lr-bt | rl-bt | lr | rl | tb
-</code></pre>
-<p>表现对照：</p>
-<p><img src="https://raw.githubusercontent.com/landray/frontend-kb/master/notes/huangzifeng/%E6%96%87%E5%AD%97%E7%AB%96%E7%9B%B4%E6%8E%92%E5%88%97/ie.png" alt="ie"></p>
-<p>ie下的属性共有11个那么多，但是如果需要兼容ie7以上的话需要记住lr-tb(左-右，上-下)，tb-rl(上-下，右-左)，分别对应于css3的horizontal-tb和vertical-rl，如果需要兼容ie8以上的话只需再多记住一个tb-lr(上-下，左-右),对应于css3的vertical-lr。归纳起来，我们一共需要记住以下6个属性</p>
-<pre><code class="html">writing-mode: lr-tb (IE7+) | tb-rl (IE7+) | tb-lr (IE8+);
-writing-mode: horizontal-tb | vertical-rl | vertical-lr;
-</code></pre>
-<h4 id="writing-mode还能做什么？"><a href="#writing-mode还能做什么？" class="headerlink" title="writing-mode还能做什么？"></a>writing-mode还能做什么？</h4><h5 id="1-改变margin重叠方向"><a href="#1-改变margin重叠方向" class="headerlink" title="1.改变margin重叠方向"></a>1.改变margin重叠方向</h5><p>writing-mode将元素默认的水平流改成了垂直流。在盒模型中，垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生叠加。换句话说，在默认的水平流中，上下相邻的两个元素垂直方向上的margin会重叠。但是在writing-mode将元素变成垂直流之后，反而左右相邻的两个元素水平方向上的margin会重叠。</p>
-<pre><code class="html">.box {
-    width: 400px;
-    background-color: #f0f3f9;
-    overflow: hidden;
-}
-.list {
-    margin: 20px;
-    background-color: #cd0000;
-    color: #fff;    
-}
-.verticle-mode {
-    writing-mode: tb-rl;
-    -webkit-writing-mode: vertical-rl;      
-    writing-mode: vertical-rl;
-}
-&lt;p&gt;&lt;strong&gt;默认流-垂直margin重叠&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;box&quot;&gt;
-    &lt;div class=&quot;list&quot;&gt;margin:20px;&lt;/div&gt;
-    &lt;div class=&quot;list&quot;&gt;margin:20px;&lt;/div&gt;
-&lt;/div&gt;
+  return {
+    increment: function() {
+      changeBy(1);
+    },
+    decrement: function() {
+      changeBy(-1);
+    },
+    value: function() {
+      return privateCounter;
+    }
+  }   
+})();
 
-&lt;p&gt;&lt;strong&gt;垂直流-水平margin重叠&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;box verticle-mode&quot;&gt;
-    &lt;div class=&quot;list&quot;&gt;margin:20px;&lt;/div&gt;
-    &lt;div class=&quot;list&quot;&gt;margin:20px;&lt;/div&gt;
-&lt;/div&gt;
+console.log(Counter.value()); /* logs 0 */
+Counter.increment();
+Counter.increment();
+console.log(Counter.value()); /* logs 2 */
+Counter.decrement();
+console.log(Counter.value()); /* logs 1 */
 </code></pre>
-<h5 id="2-使用margin-auto实现垂直居中"><a href="#2-使用margin-auto实现垂直居中" class="headerlink" title="2.使用margin:auto实现垂直居中"></a>2.使用margin:auto实现垂直居中</h5><pre><code class="html">.box {
-    width: 400px; height: 300px;
-    background-color: #f0f3f9;
-    overflow: hidden;
-    border: 1px solid;
-}
-.auto {
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 200px;
-    height: 200px;
-    background-color: #ccc;
-}
-
-.verticle-mode {
-    writing-mode: tb-rl;
-    -webkit-writing-mode: vertical-rl;      
-    writing-mode: vertical-rl;
-}
-&lt;p&gt;&lt;strong&gt;默认流-margin-top:auto;margin-bottom:auto不居中&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;div class=&quot;auto&quot;&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;垂直流-margin-top:auto;margin-bottom:auto垂直居中&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;box verticle-mode&quot;&gt;
-  &lt;div class=&quot;auto&quot;&gt;&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-<h5 id="3-使用text-align-center实现垂直居中"><a href="#3-使用text-align-center实现垂直居中" class="headerlink" title="3.使用text-align:center实现垂直居中"></a>3.使用text-align:center实现垂直居中</h5><pre><code class="html">.box {
-    width: 400px; height: 300px;
-    background-color: #f0f3f9;
-    text-align: center;
-    border: 1px solid;
-}
-
-.verticle-mode {
-    writing-mode: tb-rl;
-    -webkit-writing-mode: vertical-rl;      
-    writing-mode: vertical-rl;
-    *writing-mode: tb-rl;
-}
-
-.auto {
-      width: 200px;
-    height: 200px;
-    background-color: #ccc;
-    display: inline-block;
-}
-&lt;strong&gt;默认流-text-align:center水平居中&lt;/strong&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;div class=&quot;auto&quot;&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;strong&gt;垂直流-text-align:center垂直居中&lt;/strong&gt;
-&lt;div class=&quot;box verticle-mode&quot;&gt;
-   &lt;div class=&quot;auto&quot;&gt;&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-<h5 id="4-使用text-indent实现文字下沉效果"><a href="#4-使用text-indent实现文字下沉效果" class="headerlink" title="4.使用text-indent实现文字下沉效果"></a>4.使用text-indent实现文字下沉效果</h5><pre><code class="html">.btn {
-    display: block;
-    color: #a78252;
-    background-color: #ddc390;
-    width: 85px; height: 85px;
-    line-height: 85px;
-    border: 6px solid #ddc390;
-    border-radius: 50%;
-    box-shadow: inset 0 0 0 1px #d6b681, 0 1px, 0 2px, 0 3px, 0 4px;
-    text-align: center;
-    -webkit-transition: border-color .25s, background-color .25s;
-    transition: border-color .25s, background-color .25s;    
-    font-size: 42px;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.btn:active {
-    text-indent: 2px;
-}
-
-.verticle-mode {
-    writing-mode: tb-rl;
-    -webkit-writing-mode: vertical-rl;      
-    writing-mode: vertical-rl;
-    *writing-mode: tb-rl;
-}
-&lt;a href=&quot;javascript:&quot; class=&quot;btn verticle-mode&quot;&gt;领&lt;/a&gt;
-</code></pre>
+<hr>
 
                 </div>
             </section>
@@ -323,14 +215,10 @@ writing-mode: horizontal-tb | vertical-rl | vertical-lr;
 <nav class="pagination">
     
     
-    <a class="prev-post" title="网络知识科普" href="/2018/07/19/fe-note-5/">
-        ← 网络知识科普
-    </a>
-    
     <span class="prev-next-post">•</span>
     
-    <a class="next-post" title="css绝对定位absoulte" href="/2018/07/19/fe-note-3/">
-        css绝对定位absoulte →
+    <a class="next-post" title="canvas + css绘制啤酒" href="/2018/07/23/fe-note-9/">
+        canvas + css绘制啤酒 →
     </a>
     
     
@@ -353,7 +241,7 @@ writing-mode: horizontal-tb | vertical-rl | vertical-lr;
 <div class="toc-main" style="right: -100%">
     <div class="post-toc">
         <span>TOC</span>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文字竖直排列实现方式"><span class="toc-text">文字竖直排列实现方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用br换行标签实现文字换行"><span class="toc-text">使用br换行标签实现文字换行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#强制设置显示区域的宽度"><span class="toc-text">强制设置显示区域的宽度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用writing-mode属性"><span class="toc-text">使用writing-mode属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#writing-mode还能做什么？"><span class="toc-text">writing-mode还能做什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-改变margin重叠方向"><span class="toc-text">1.改变margin重叠方向</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-使用margin-auto实现垂直居中"><span class="toc-text">2.使用margin:auto实现垂直居中</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-使用text-align-center实现垂直居中"><span class="toc-text">3.使用text-align:center实现垂直居中</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-使用text-indent实现文字下沉效果"><span class="toc-text">4.使用text-indent实现文字下沉效果</span></a></li></ol></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#闭包"><span class="toc-text">闭包</span></a></li></ol>
     </div>
 </div>
 
@@ -474,7 +362,7 @@ writing-mode: horizontal-tb | vertical-rl | vertical-lr;
         </a>
     </div>
     <span class="floating-header-divider">&mdash;</span>
-    <div class="floating-header-title">文字竖直排列实现方式</div>
+    <div class="floating-header-title">闭包</div>
     <progress class="progress" value="0">
         <div class="progress-container">
             <span class="progress-bar"></span>
