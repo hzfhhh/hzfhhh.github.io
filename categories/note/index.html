@@ -6,6 +6,8 @@
 
 
 
+
+
 <head>
 	
 	
@@ -16,7 +18,7 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-	<title>apply()、call()、bind()用法与区别 | 黄梓峰的博客</title>
+	<title>Category: note | 黄梓峰的博客</title>
 
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
@@ -43,9 +45,9 @@
 
 	<meta property="og:site_name" content="黄梓峰的博客">
 	<meta property="og:type" content="blog">
-	<meta property="og:title" content="apply()、call()、bind()用法与区别 | 黄梓峰的博客">
+	<meta property="og:title" content="Category: note | 黄梓峰的博客">
 	<meta property="og:description" content="">
-	<meta property="og:url" content="https://github.com/hzfhhh/hzfhhh.github.io/categories/index/fe-note-1.html">
+	<meta property="og:url" content="https://github.com/hzfhhh/hzfhhh.github.io/categories/note/index.html">
 
 	
 
@@ -53,7 +55,7 @@
 </head>
 <body class="tag-template">
     <div class="site-wrapper">
-        
+         
 
 
 
@@ -125,9 +127,9 @@
         <div class="site-header-content">
             
             <h1 class="site-title">
-                apply()、call()、bind()用法与区别
+                Category: note
             </h1>
-            <h2 class="site-description"></h2>
+            <h2 class="site-description">分类</h2>
         </div>
         
         
@@ -135,84 +137,71 @@
 </header>
 
 
-
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
-			<article class="post-card post no-image">
-				<article class="post-full no-image">
-					<section class="post-full-content" style="padding: 4vw">
-						<div id="lightgallery" class="markdown-body">
-							<h3 id="apply、call用法与区别"><a href="#apply、call用法与区别" class="headerlink" title="apply、call用法与区别"></a>apply、call用法与区别</h3><p>在 javascript 中，call() 和 apply() 都是为了改变某个函数运行时函数体内部 this 的指向。</p>
-<p>call()和apply()作用相同，唯一区别是接收的参数不同，apply()接收两个参数，第一个参数是运行函数的作用域，另一个是参数数组，如：</p>
-<pre><code class="javascript">    var numbers = [1,2,3];
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="apply()、call()、bind()用法与区别" href="/2018/07/19/fe-note-1/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								note
+								| 
+								
+								<time datetime="2018-07-19T02:24:25.367Z" itemprop="datePublished">
+									2018-07-19
+								</time>
+							</span>
+							<h2 class="post-card-title">apply()、call()、bind()用法与区别</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								apply、call用法与区别在 javascript 中，call() 和 apply() 都是为了改变某个函数运行时函数体内部 this 的指向。
+call()和apply()作用相同，唯一区别是接收的参数不同，apply()接收两个参数，第一个参数是运行函数的作用域，另一个是参数数组，如：
+    var numbers = [1,2,3];
     Math.max.apply(this,numbers);  //3
-</code></pre>
-<pre><code class="javascript">    var numbers = [1,2,3];
-    Math.max.apply(this,numbers);  //3
-</code></pre>
-<p>call()接收两个参数，第一个参数与apply()一样都是运行函数的作用域，其余参数必须逐一列举出来，如:</p>
-<pre><code class="javascript">    Math.max.call(this,1,2,3);  //3
-</code></pre>
-<p>因为call()和apply()可以改变函数体内this的指向，因此当我们希望在函数实例的一个方法中调用一个新对象但又不想重新定义这个方法时可以这样做:</p>
-<pre><code class="javascript">    function Person() {
-      this.name = &#39;程序员&#39;;
-    }
-    Person.prototype = {
-      say: function () {
-        console.log(&#39;我是&#39;+this.name);
-      }
-    }
-    var man = new Person();
-    test = {
-      name: &quot;产品经理&quot;
-    }
-    man.say.apply(test);  //我是产品经理
-    man.say.call(test);    //我是产品经理
-    /**say方法原来的作用域并没有改变，只是在调用apply()、call()方法时才改变**/
-    man.say();    //我是程序员
-</code></pre>
-<p>当函数的参数不确定时，也可以使用call()、apply()，如:</p>
-<pre><code class="javascript">    function max () {
-        return Math.max.apply(this,arguments);
-    }
-    max(1,2,3)    //3
-</code></pre>
-<h3 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h3><p>bind()与call()、apply()用法相似，也可以改变函数体内的this指向，但bind()会创建一个新的函数。当调用bind()时会以传入bind()的第一个参数作为this,如：</p>
-<pre><code class="javascript">    var func = function () {
-      return this.x;
-    }
-    var obj = {
-      x: 1
-    }
-    var test = func.bind(obj);
-    test();    //1
-</code></pre>
-<p>当多次调用bind()时，this指向的是第一个bind()传入的第一个参数，如：</p>
-<pre><code class="javascript">    var func = function () {
-      return this.x;
-    }
-    var obj1 = {
-      x: 1
-    }
-    var obj2 = {
-      x: 2
-    }
-    var obj3 = {
-      x: 3
-    }
-    var test = func.bind(obj1).bind(obj2).bind(obj3);
-    test();    //1
-</code></pre>
-<p>原因在于bind()的实现相当于在函数内部包了一个call()/apply()，第二次bind()相当于再包住第一次的bind()，所以第二次以后的bind()是无法生效的。</p>
-<p>附上bind()对浏览器支持情况：<br><img src="https://raw.githubusercontent.com/landray/frontend-kb/master/notes/huangzifeng/apply-call-bind/bind-support.png" alt="image"></p>
 
-						</div>
-					</section>
-				</article>
+    var numbers = [1,2,3
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<ul class="author-list">
+							<li class="author-list-item">
+								<div class="author-name-tooltip">hzfhhh</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/img/voice.png" alt="hzfhhh" />
+								</a>
+								
+							</li>
+						</ul>
+						<span class="reading-time">
+							4
+							 min read
+						</span>
+					</footer>
+				</div>
 			</article>
+			
 		</div>
 	</div>
+	
+<nav class="pagination">
+    
+    
+    
+</nav>
 </main>
 
 
@@ -285,7 +274,7 @@
     </header>
     <div class="read-next-card-content">
         <ul>
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/categories/">categories</a></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a></li></ul>
         </ul>
     </div>
 </article>
