@@ -18,7 +18,7 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-	<title>vue.js自定义组件上使用v-model | 黄梓峰的博客</title>
+	<title>事件循环 | 黄梓峰的博客</title>
 
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
@@ -45,14 +45,14 @@
 
 	<meta property="og:site_name" content="黄梓峰的博客">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="vue.js自定义组件上使用v-model | 黄梓峰的博客">
+	<meta property="og:title" content="事件循环 | 黄梓峰的博客">
 	<meta property="og:description" content="">
-	<meta property="og:url" content="https://github.com/hzfhhh/hzfhhh.github.io/2018/07/19/fe-note-8/">
+	<meta property="og:url" content="https://github.com/hzfhhh/hzfhhh.github.io/2020/04/11/事件循环/">
 
 	
-	<meta property="article:published_time" content="2018-07-19T18:07:61+08:00"/> 
+	<meta property="article:published_time" content="2020-04-11T22:04:00+08:00"/> 
 	<meta property="article:author" content="hzfhhh">
-	<meta property="article:published_first" content="黄梓峰的博客, /2018/07/19/fe-note-8/" />
+	<meta property="article:published_first" content="黄梓峰的博客, /2020/04/11/事件循环/" />
 	
 
 	
@@ -139,90 +139,34 @@
     <div class="inner">
         <header class="post-full-header">
             <section class="post-full-meta">
-                <time  class="post-full-meta-date" datetime="2018-07-19T10:07:18.610Z" itemprop="datePublished">
-                    2018-07-19
+                <time  class="post-full-meta-date" datetime="2020-04-11T14:09:05.000Z" itemprop="datePublished">
+                    2020-04-11
                 </time>
                 
                 <span class="date-divider">/</span>
                 
+                <a href="/categories/知识总结/">知识总结</a>&nbsp;&nbsp;
+                
                 
             </section>
-            <h1 class="post-full-title">vue.js自定义组件上使用v-model</h1>
+            <h1 class="post-full-title">事件循环</h1>
         </header>
         <article class="post-full no-image">
             
             <section class="post-full-content">
                 <div id="lightgallery" class="markdown-body">
-                    <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>vue2.2+版本新增了一个功能，可以在自定义组件上使用v-model实现双向绑定。在使用新功能之前，我们先来了解一下vue.js的v-model是如何实现双向绑定的。从官方文档以及各种技术文章中,我们可以知道，v-model是v-bind以及v-on配合使用的语法糖，给一个详细的例子:</p>
-<pre><code>&lt;input v-model=&quot;value&quot; /&gt;
-&lt;input v-bind:value=&quot;value&quot; v-on:input=&quot;value= $event.target.value&quot; /&gt;
-</code></pre><p>两种方法的实现效果是一样的，都是给<code>&lt;input&gt;</code>标签绑定一个值，并且在监听到input事件时，把输入的值替换绑定的值来实现双向绑定。其中第一种是第二种方法的语法糖。</p>
-<p>现在我们已经了解了v-model是什么东东，那么除了在表单控件上使用v-model外，能不能在自定义的组件上使用v-model，从而实现父子组件间的双向绑定呢？</p>
-<p>答案是可以的。<br>vue2.2+版本后，新增加了一个model选项，model选项允许自定义prop和event。官方原文是这样的：<strong>允许一个自定义组件在使用 v-model 时定制 prop 和 event。默认情况下，一个组件上的 v-model 会把 value 用作 prop 且把 input 用作 event，但是一些输入类型比如单选框和复选框按钮可能想使用 value prop 来达到不同的目的。使用 model 选项可以回避这些情况产生的冲突。</strong></p>
-<p>下面我们通过一个实例来讲解怎么使用：</p>
-<p>我们首先编写一个子组件，并用到model选项,核心代码如下：</p>
-<pre><code>&lt;div class=&quot;radio&quot;&gt;
-    &lt;div class=&quot;radioGroup&quot;&gt;
-      &lt;div class=&quot;radioItem&quot; v-for=&quot;item in options&quot; :key=&quot;item.value&quot; @click=&quot;clickRadio(item.value)&quot;&gt;
-        &lt;div class=&quot;radioBox&quot; :class=&quot;{checked: item.value===checked}&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;name&quot;&gt;{{item.name}}&lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;script&gt;
-  export default {
-    name: &#39;radio&#39;,
-    data(){
-      return {
-        checked: 0
-      }
-    },
-    props: {
-      options: Array
-    },
-    model: {
-      prop: &#39;value&#39;,//绑定的值，通过父组件传递
-      event: &#39;update&#39;//自定义时间名
-    },
-    methods: {
-      clickRadio(val){
-        this.checked = val
-        this.$emit(&#39;update&#39;, val) //子组件与父组件通讯，告知父组件更新绑定的值
-      }
-    }
-  }
-&lt;/script&gt;
-</code></pre><p>父组件部分:</p>
-<pre><code>&lt;template&gt;
-  &lt;div id=&quot;app&quot;&gt;
-    &lt;div class=&quot;left&quot;&gt;选中：{{checked}}&lt;/div&gt;
-    &lt;radio class=&quot;right&quot; :options=&quot;options&quot; v-model=&quot;checked&quot;&gt;&lt;/radio&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-import radio from &#39;./components/radio.vue&#39;
-
-export default {
-  name: &#39;App&#39;,
-  components: {
-    radio
-  },
-  data() {
-    return {
-      checked: 0,
-      options: [{
-        value: 0,
-        name: &#39;选项1&#39;
-      }, {
-        value: 1,
-        name: &#39;选项2&#39;
-      }]
-    }
-  }
-}
-&lt;/script&gt;
+                    <h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><p>计算机系统的一种运行机制，JavaScript语言就采用这种机制，来解决单线程运行带来的一些问题。</p>
+<p><strong>Event Loop是一个程序结构，用于等待和发送消息和事件</strong></p>
+<p>简单说，就是在程序中设置两个线程：一个负责程序本身的运行，称为”主线程”；另一个负责主线程与其他进程（主要是各种I/O操作）的通信，被称为”Event Loop线程”（可以译为”消息线程”）。</p>
+<h4 id="宏任务、微任务"><a href="#宏任务、微任务" class="headerlink" title="宏任务、微任务"></a>宏任务、微任务</h4><h5 id="微任务和宏任务皆为异步任务，它们都属于一个队列，主要区别在于他们的执行顺序。"><a href="#微任务和宏任务皆为异步任务，它们都属于一个队列，主要区别在于他们的执行顺序。" class="headerlink" title="微任务和宏任务皆为异步任务，它们都属于一个队列，主要区别在于他们的执行顺序。"></a>微任务和宏任务皆为异步任务，它们都属于一个队列，主要区别在于他们的执行顺序。</h5><p>宏任务：setTimeout、setInterval</p>
+<p>微任务：promise</p>
+<pre><code class="js">console.log(&#39;script start&#39;); 
+setTimeout(function() {  console.log(&#39;setTimeout&#39;); }, 0); 
+Promise.resolve().then(function() {  console.log(&#39;promise1&#39;); }).then(function() {  console.log(&#39;promise2&#39;); });
+console.log(&#39;script end&#39;); 
 </code></pre>
+<hr>
+
                 </div>
             </section>
         </article>
@@ -231,14 +175,14 @@ export default {
 <nav class="pagination">
     
     
-    <a class="prev-post" title="canvas + css绘制啤酒" href="/2018/07/23/fe-note-9/">
-        ← canvas + css绘制啤酒
+    <a class="prev-post" title="原型链" href="/2020/04/11/原型链/">
+        ← 原型链
     </a>
     
     <span class="prev-next-post">•</span>
     
-    <a class="next-post" title="CSS画波浪线的方法" href="/2018/07/19/fe-note-7/">
-        CSS画波浪线的方法 →
+    <a class="next-post" title="闭包" href="/2020/04/11/闭包/">
+        闭包 →
     </a>
     
     
@@ -261,7 +205,7 @@ export default {
 <div class="toc-main" style="right: -100%">
     <div class="post-toc">
         <span>TOC</span>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#事件循环"><span class="toc-text">事件循环</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#宏任务、微任务"><span class="toc-text">宏任务、微任务</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#微任务和宏任务皆为异步任务，它们都属于一个队列，主要区别在于他们的执行顺序。"><span class="toc-text">微任务和宏任务皆为异步任务，它们都属于一个队列，主要区别在于他们的执行顺序。</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
 
@@ -388,7 +332,7 @@ export default {
         </a>
     </div>
     <span class="floating-header-divider">&mdash;</span>
-    <div class="floating-header-title">vue.js自定义组件上使用v-model</div>
+    <div class="floating-header-title">事件循环</div>
     <progress class="progress" value="0">
         <div class="progress-container">
             <span class="progress-bar"></span>

@@ -18,7 +18,7 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-	<title>vue.js自定义组件上使用v-model | 黄梓峰的博客</title>
+	<title>网络 | 黄梓峰的博客</title>
 
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
@@ -45,14 +45,14 @@
 
 	<meta property="og:site_name" content="黄梓峰的博客">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="vue.js自定义组件上使用v-model | 黄梓峰的博客">
+	<meta property="og:title" content="网络 | 黄梓峰的博客">
 	<meta property="og:description" content="">
-	<meta property="og:url" content="https://github.com/hzfhhh/hzfhhh.github.io/2018/07/19/fe-note-8/">
+	<meta property="og:url" content="https://github.com/hzfhhh/hzfhhh.github.io/2020/04/11/网络/">
 
 	
-	<meta property="article:published_time" content="2018-07-19T18:07:61+08:00"/> 
+	<meta property="article:published_time" content="2020-04-11T22:04:00+08:00"/> 
 	<meta property="article:author" content="hzfhhh">
-	<meta property="article:published_first" content="黄梓峰的博客, /2018/07/19/fe-note-8/" />
+	<meta property="article:published_first" content="黄梓峰的博客, /2020/04/11/网络/" />
 	
 
 	
@@ -139,90 +139,34 @@
     <div class="inner">
         <header class="post-full-header">
             <section class="post-full-meta">
-                <time  class="post-full-meta-date" datetime="2018-07-19T10:07:18.610Z" itemprop="datePublished">
-                    2018-07-19
+                <time  class="post-full-meta-date" datetime="2020-04-11T14:12:07.000Z" itemprop="datePublished">
+                    2020-04-11
                 </time>
                 
                 <span class="date-divider">/</span>
                 
+                <a href="/categories/知识总结/">知识总结</a>&nbsp;&nbsp;
+                
                 
             </section>
-            <h1 class="post-full-title">vue.js自定义组件上使用v-model</h1>
+            <h1 class="post-full-title">网络</h1>
         </header>
         <article class="post-full no-image">
             
             <section class="post-full-content">
                 <div id="lightgallery" class="markdown-body">
-                    <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>vue2.2+版本新增了一个功能，可以在自定义组件上使用v-model实现双向绑定。在使用新功能之前，我们先来了解一下vue.js的v-model是如何实现双向绑定的。从官方文档以及各种技术文章中,我们可以知道，v-model是v-bind以及v-on配合使用的语法糖，给一个详细的例子:</p>
-<pre><code>&lt;input v-model=&quot;value&quot; /&gt;
-&lt;input v-bind:value=&quot;value&quot; v-on:input=&quot;value= $event.target.value&quot; /&gt;
-</code></pre><p>两种方法的实现效果是一样的，都是给<code>&lt;input&gt;</code>标签绑定一个值，并且在监听到input事件时，把输入的值替换绑定的值来实现双向绑定。其中第一种是第二种方法的语法糖。</p>
-<p>现在我们已经了解了v-model是什么东东，那么除了在表单控件上使用v-model外，能不能在自定义的组件上使用v-model，从而实现父子组件间的双向绑定呢？</p>
-<p>答案是可以的。<br>vue2.2+版本后，新增加了一个model选项，model选项允许自定义prop和event。官方原文是这样的：<strong>允许一个自定义组件在使用 v-model 时定制 prop 和 event。默认情况下，一个组件上的 v-model 会把 value 用作 prop 且把 input 用作 event，但是一些输入类型比如单选框和复选框按钮可能想使用 value prop 来达到不同的目的。使用 model 选项可以回避这些情况产生的冲突。</strong></p>
-<p>下面我们通过一个实例来讲解怎么使用：</p>
-<p>我们首先编写一个子组件，并用到model选项,核心代码如下：</p>
-<pre><code>&lt;div class=&quot;radio&quot;&gt;
-    &lt;div class=&quot;radioGroup&quot;&gt;
-      &lt;div class=&quot;radioItem&quot; v-for=&quot;item in options&quot; :key=&quot;item.value&quot; @click=&quot;clickRadio(item.value)&quot;&gt;
-        &lt;div class=&quot;radioBox&quot; :class=&quot;{checked: item.value===checked}&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;name&quot;&gt;{{item.name}}&lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;script&gt;
-  export default {
-    name: &#39;radio&#39;,
-    data(){
-      return {
-        checked: 0
-      }
-    },
-    props: {
-      options: Array
-    },
-    model: {
-      prop: &#39;value&#39;,//绑定的值，通过父组件传递
-      event: &#39;update&#39;//自定义时间名
-    },
-    methods: {
-      clickRadio(val){
-        this.checked = val
-        this.$emit(&#39;update&#39;, val) //子组件与父组件通讯，告知父组件更新绑定的值
-      }
-    }
-  }
-&lt;/script&gt;
-</code></pre><p>父组件部分:</p>
-<pre><code>&lt;template&gt;
-  &lt;div id=&quot;app&quot;&gt;
-    &lt;div class=&quot;left&quot;&gt;选中：{{checked}}&lt;/div&gt;
-    &lt;radio class=&quot;right&quot; :options=&quot;options&quot; v-model=&quot;checked&quot;&gt;&lt;/radio&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+                    <h3 id="网络协议"><a href="#网络协议" class="headerlink" title="网络协议"></a>网络协议</h3><h4 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a><a href="https://juejin.im/post/5e1870736fb9a02fef3a5dcb#heading-18" target="_blank" rel="noopener">参考文献</a></h4><h4 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP/2"></a>HTTP/2</h4><h4 id="二进制"><a href="#二进制" class="headerlink" title="二进制"></a><strong>二进制</strong></h4><p>HTTP/2 采用二进制格式传输数据，而非 HTTP 1.x 的文本格式，二进制协议解析起来更高效。HTTP / 1 的请求和响应报文，都是由起始行，首部和实体正文（可选）组成，各部分之间以文本换行符分隔。HTTP/2 将请求和响应数据分割为更小的帧，并且它们采用二进制编码。</p>
+<p><strong>HTTP/2 中，同域名下所有通信都在单个连接上完成，该连接可以承载任意数量的双向数据流。</strong>每个数据流都以消息的形式发送，而消息又由一个或多个帧组成。多个帧之间可以乱序发送，根据帧首部的流标识可以重新组装。</p>
+<h4 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a><strong>多路复用</strong></h4><p>多路复用，代替原来的序列和阻塞机制。所有就是请求的都是通过一个 TCP连接并发完成。 HTTP 1.x 中，如果想并发多个请求，必须使用多个 TCP 链接，且浏览器为了控制资源，还会对单个域名有 6-8个的TCP链接请求限制。</p>
+<p><strong>同个域名只需要占用一个 TCP 连接</strong>，消除了因多个 TCP 连接而带来的延时和内存消耗。</p>
+<p>单个连接上可以并行交错的请求和响应，之间互不干扰。</p>
+<h4 id="头部压缩"><a href="#头部压缩" class="headerlink" title="头部压缩"></a><strong>头部压缩</strong></h4><p>HTTP每一次通信都会携带一组头部，用于描述这次通信的的资源、浏览器属性、cookie等，为了减少这块的资源消耗并提升性能， <strong>HTTP/2对这些首部采取了压缩策略</strong>：</p>
+<ul>
+<li>HTTP/2在客户端和服务器端使用“首部表”来跟踪和存储之前发送的键－值对，对于相同的数据，不再通过每次请求和响应发送；</li>
+<li>首部表在HTTP/2的连接存续期内始终存在，由客户端和服务器共同渐进地更新;</li>
+<li>每个新的首部键－值对要么被追加到当前表的末尾，要么替换表中之前的值。</li>
+</ul>
 
-&lt;script&gt;
-import radio from &#39;./components/radio.vue&#39;
-
-export default {
-  name: &#39;App&#39;,
-  components: {
-    radio
-  },
-  data() {
-    return {
-      checked: 0,
-      options: [{
-        value: 0,
-        name: &#39;选项1&#39;
-      }, {
-        value: 1,
-        name: &#39;选项2&#39;
-      }]
-    }
-  }
-}
-&lt;/script&gt;
-</code></pre>
                 </div>
             </section>
         </article>
@@ -231,14 +175,10 @@ export default {
 <nav class="pagination">
     
     
-    <a class="prev-post" title="canvas + css绘制啤酒" href="/2018/07/23/fe-note-9/">
-        ← canvas + css绘制啤酒
-    </a>
-    
     <span class="prev-next-post">•</span>
     
-    <a class="next-post" title="CSS画波浪线的方法" href="/2018/07/19/fe-note-7/">
-        CSS画波浪线的方法 →
+    <a class="next-post" title="原型链" href="/2020/04/11/原型链/">
+        原型链 →
     </a>
     
     
@@ -261,7 +201,7 @@ export default {
 <div class="toc-main" style="right: -100%">
     <div class="post-toc">
         <span>TOC</span>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#网络协议"><span class="toc-text">网络协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考文献"><span class="toc-text">参考文献</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-2"><span class="toc-text">HTTP/2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二进制"><span class="toc-text">二进制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多路复用"><span class="toc-text">多路复用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#头部压缩"><span class="toc-text">头部压缩</span></a></li></ol></li></ol>
     </div>
 </div>
 
@@ -388,7 +328,7 @@ export default {
         </a>
     </div>
     <span class="floating-header-divider">&mdash;</span>
-    <div class="floating-header-title">vue.js自定义组件上使用v-model</div>
+    <div class="floating-header-title">网络</div>
     <progress class="progress" value="0">
         <div class="progress-container">
             <span class="progress-bar"></span>
